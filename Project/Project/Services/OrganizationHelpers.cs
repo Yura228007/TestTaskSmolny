@@ -54,6 +54,46 @@ namespace SATS_TestTask
             return result;
         }
 
+        public static async Task<List<string>> GetUserBossChainAsync(
+        IUserOrganizationService userOrgService,
+        Security.Models.User user,
+        bool includeBlocked)
+        {
+            var chain = new List<string>();
+
+            var positions = await userOrgService.GetPositionsForUserAsync(user);
+            if (positions == null || positions.Count == 0)
+                return chain;
+
+            var orgDict = Data.OrganizationItems.ToDictionary(i => i.Id, i => i);
+
+            foreach (var pos in positions)
+            {
+                long? parent = pos.Parent;
+
+                while (parent != null)
+                {
+                    if (!orgDict.TryGetValue(parent.Value, out var parentItem))
+                        break;
+
+                    var usersOnParent = await userOrgService.GetUsersByPositionAsync(parentItem);
+
+                    foreach (var boss in usersOnParent)
+                    {
+                        if (!includeBlocked && boss.blockDate != null)
+                            continue;
+
+                        var mark = boss.blockDate != null ? " (????????????)" : "";
+                        chain.Add($"{parentItem.Name} – {boss.fullName}{mark}");
+                    }
+
+                    parent = parentItem.Parent;
+                }
+            }
+
+            return chain.Distinct().ToList();
+        }
+
         public static async Task<List<Security.Models.User>> SortUsersByPositionLevelAsync(
             IUserOrganizationService userOrgService,
             IEnumerable<Security.Models.User> users)
