@@ -1,0 +1,7 @@
+C:\Gits\TestTaskSmolny\Project\Project\bin\Release\Project.exe.config
+C:\Gits\TestTaskSmolny\Project\Project\bin\Release\Project.exe
+C:\Gits\TestTaskSmolny\Project\Project\bin\Release\Project.pdb
+C:\Gits\TestTaskSmolny\Project\Project\obj\Release\Project.csproj.AssemblyReference.cache
+C:\Gits\TestTaskSmolny\Project\Project\obj\Release\Project.csproj.CoreCompileInputs.cache
+C:\Gits\TestTaskSmolny\Project\Project\obj\Release\Project.exe
+C:\Gits\TestTaskSmolny\Project\Project\obj\Release\Project.pdb
